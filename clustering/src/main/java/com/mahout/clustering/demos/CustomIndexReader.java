@@ -26,7 +26,7 @@ public class CustomIndexReader {
 	
 	public static void main(String[] args) throws IOException{
 		new CustomIndexReader().readVectorDocuments();
-		System.out.println("done");
+		System.out.println("done123");
 	}
 
 	public void readVectorDocuments() throws FileNotFoundException,
