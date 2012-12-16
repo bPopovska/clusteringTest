@@ -40,7 +40,7 @@ public class CustomStemAnalyzerDemo {
 		
 		
 		// enum that determines the Lucene library version
-		Version version = Version.LUCENE_36;
+		Version version = Version.LUCENE_34;
 		
 		// a set of stop words used by analyzer
 		Set<String> stopWords = Stopwords.load(STOP_WORDS_FILE);

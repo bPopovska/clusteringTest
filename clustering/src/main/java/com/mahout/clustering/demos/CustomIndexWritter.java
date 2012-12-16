@@ -49,7 +49,7 @@ public class CustomIndexWritter {
 			FileNotFoundException, CorruptIndexException,
 			LockObtainFailedException {
 		// enum that determines the Lucene library version
-		Version version = Version.LUCENE_36;
+		Version version = Version.LUCENE_34;
 		
 		// a set of stop words used by analyzer
 		Set<String> stopWords = Stopwords.load(InputParams.STOP_WORDS_FILE);

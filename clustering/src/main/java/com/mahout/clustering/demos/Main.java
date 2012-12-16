@@ -32,7 +32,7 @@ public class Main {
 		
 		File stopwords = new File("C:\\Users\\bpopovsk\\DiplomskaFiles\\stop_words_long.txt");
 		Set<String> setStopWords = Utils.fileToSet(stopwords);
-		Version version = Version.LUCENE_35;
+		Version version = Version.LUCENE_34;
 		
 		Dictionary wordnet = null;
 		JWNL.initialize(new FileInputStream("JWNLproperties.xml"));
