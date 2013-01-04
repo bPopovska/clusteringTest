@@ -1,25 +1,23 @@
-package com.mahout.clustering.evaluation;
+package com.mahout.clustering.evaluation.unsupervised;
 
 import java.util.List;
 
 import org.apache.mahout.clustering.kmeans.Cluster;
 import org.apache.mahout.common.distance.DistanceMeasure;
 
-public class Separation {
+import com.mahout.clustering.evaluation.unsupervised.UnsupervisedEvaluator;
 
-	private List<Cluster> clusters;
-	
-	private DistanceMeasure distanceMeasure;
-	
+public class Separation extends UnsupervisedEvaluator{
+
 	private int total;
 
 	public Separation(List<Cluster> clusters, DistanceMeasure distanceMeasure, int total) {
-		this.clusters = clusters;
-		this.distanceMeasure = distanceMeasure;
+		super(clusters, distanceMeasure);
 		this.total = total;
 	}
 	
-	public double calculate(){
+	@Override
+	public double evaluate(){
 		double result = 0;
 		for (int i = 0; i < clusters.size(); i++) {
 			Cluster clusterI = clusters.get(i);
