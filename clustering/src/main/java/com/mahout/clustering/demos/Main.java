@@ -19,6 +19,7 @@ import org.apache.lucene.util.Version;
 
 import com.mahout.clustering.analyzers.CustomStemAnalyzer;
 import com.mahout.clustering.analyzers.PoterStemAnalyzer;
+import com.mahout.clustering.model.InputParams;
 import com.mahout.clustering.stemmer.WordnetStemmer;
 import com.mahout.clustering.synonym_engines.WordNetSynonymEngine;
 import com.mahout.clustering.utils.AnalyzerUtils;
@@ -47,7 +48,7 @@ public class Main {
 			new StandardAnalyzer(version, stopwords),
 			new ClassicAnalyzer(version, stopwords),
 			new PoterStemAnalyzer(version, setStopWords, engine),
-			new CustomStemAnalyzer(version, setStopWords, engine, stemmer, wordnet, null)};
+			new CustomStemAnalyzer(version, setStopWords, engine, stemmer, wordnet, null, InputParams.SYNSET_STRATEGY)};
 		
 		File input = new File("C:\\Users\\bpopovsk\\DiplomskaFiles\\small_set");
 		File output = new File("C:\\Users\\bpopovsk\\DiplomskaFiles\\small_set_analysis");	

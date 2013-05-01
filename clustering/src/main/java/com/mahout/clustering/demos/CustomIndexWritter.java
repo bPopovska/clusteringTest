@@ -32,6 +32,7 @@ import org.apache.lucene.util.Version;
 import com.mahout.clustering.analyzers.CustomStemAnalyzer;
 import com.mahout.clustering.model.InputParams;
 import com.mahout.clustering.model.WordnetProperties;
+import com.mahout.clustering.stemmer.EnglishStandardStemer;
 import com.mahout.clustering.stemmer.Steemer;
 import com.mahout.clustering.stemmer.WordnetStemmer;
 import com.mahout.clustering.synonym_engines.SynonymEngine;
@@ -55,7 +56,17 @@ public class CustomIndexWritter {
 		Set<String> stopWords = Stopwords.load(InputParams.STOP_WORDS_FILE);
 		
 		// stemmer used in preprocessing
-		Steemer stemmer = new WordnetStemmer();
+		Steemer stemmer = null;
+		switch(InputParams.STEMER){
+		case ENGLISH:
+			stemmer = new EnglishStandardStemer();
+			break;
+		case WORDNET:
+			stemmer = new WordnetStemmer();
+			break;
+		default: 
+			break;
+		}
 		
 		// wordnet dictionary used
 		Dictionary wordnet = Dictionary.getInstance();
@@ -73,18 +84,20 @@ public class CustomIndexWritter {
 		engine.setNumberSynsets(InputParams.MAX_SYNONYMES);
 		
 		
-		CustomStemAnalyzer customSteamAnalyzer = new CustomStemAnalyzer(version, stopWords, engine, stemmer, wordnet, wordNetProperties);
+		CustomStemAnalyzer customSteamAnalyzer = new CustomStemAnalyzer(version, stopWords, engine, stemmer, wordnet, wordNetProperties, InputParams.SYNSET_STRATEGY);
 		//StandardAnalyzer customSteamAnalyzer = new StandardAnalyzer(version);
 		
 		IndexWriterConfig config = new IndexWriterConfig(version, customSteamAnalyzer);
-		File outputIndexFile = new File("output");
+		
+		String ouputFileString = "output_" + FormatingUtils.analyzerParametersToString();
+		File outputIndexFile = new File(ouputFileString);
 		
 		Directory dir = new SimpleFSDirectory(outputIndexFile);
 		
 		//only create the index if it doesn't already exist
 		if(!outputIndexFile.exists()){
 			outputIndexFile.mkdir();
-			File fileNamesIndex = new File("output/filenames");
+			File fileNamesIndex = new File(ouputFileString + "/filenames");
 			PrintWriter pw = new PrintWriter(fileNamesIndex);
 			IndexWriter writter = new IndexWriter(dir, config);
 			File inputFolder = new File("input");
@@ -125,7 +138,7 @@ public class CustomIndexWritter {
 		if(!rootVectorFolder.exists()){
 			rootVectorFolder.mkdir();
 		}
-		File fileNameIndexSrc = new File("output/filenames");
+		File fileNameIndexSrc = new File(ouputFileString + "/filenames");
 		File fileNameIndexDest = new File(vectorDirName + "/filenames");
 		FileUtils.copyFile(fileNameIndexSrc, fileNameIndexDest);
 		

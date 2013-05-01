@@ -20,6 +20,7 @@ public class CanopyDemo {
 		//FIXME: how to initialize these values?
 		double T1 = 0;
 		double T2 = 0;
+				
 		CustomIndexReader customIndexReader = new CustomIndexReader();
 		customIndexReader.readVectorDocuments();
 		List<String> allterms = customIndexReader.getAllterms();

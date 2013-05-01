@@ -30,10 +30,11 @@ public class CustomStemAnalyzer extends Analyzer {
 	Steemer stemmer;
 	Dictionary wordnet;
 	WordnetProperties properties;
+	SynsetsStrategy synsetStrategy;
 	
 
 	public CustomStemAnalyzer(Version version, Set<String> stopwords,
-			SynonymEngine engine, Steemer stemmer, Dictionary wordnet, WordnetProperties wordnetProperties) {
+			SynonymEngine engine, Steemer stemmer, Dictionary wordnet, WordnetProperties wordnetProperties, SynsetsStrategy synsetStrategy) {
 		super();
 		this.version = version;
 		this.stopwords = stopwords;
@@ -41,13 +42,16 @@ public class CustomStemAnalyzer extends Analyzer {
 		this.stemmer = stemmer;
 		this.wordnet = wordnet;
 		this.properties = wordnetProperties;
+		this.synsetStrategy = synsetStrategy;
 	}
 
 	@Override
 	public TokenStream tokenStream(String fieldName, Reader reader) {
 		
+		SpecificTermsFilter specificTermsFilter = new SpecificTermsFilter(new StopFilter(version, new LowerCaseFilter(version, new ClassicTokenizer(
+				version, reader)), stopwords));
+		POSFilter stemerFilter = new POSFilter(specificTermsFilter);
 		return new WordnetFilter(new SynonymFilter(new CustomStemFilter(
-				 new POSFilter(new SpecificTermsFilter(new StopFilter(version, new LowerCaseFilter(version, new ClassicTokenizer(
-						version, reader)), stopwords))), stemmer), engine), properties, SynsetsStrategy.INCLUDE_ALL, wordnet);
+				 stemerFilter, stemmer), engine), properties, synsetStrategy, wordnet);
 	}
 }

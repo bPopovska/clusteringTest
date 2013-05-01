@@ -11,8 +11,10 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.util.Version;
+import org.apache.lucene.util.fst.FST.INPUT_TYPE;
 
 import com.mahout.clustering.analyzers.CustomStemAnalyzer;
+import com.mahout.clustering.model.InputParams;
 import com.mahout.clustering.model.WordnetProperties;
 import com.mahout.clustering.stemmer.Steemer;
 import com.mahout.clustering.stemmer.WordnetStemmer;
@@ -64,7 +66,7 @@ public class CustomStemAnalyzerDemo {
 		engine.setNumberSynsets(MAX_SYNONYMES);
 		
 		
-		CustomStemAnalyzer customSteamAnalyzer = new CustomStemAnalyzer(version, stopWords, engine, stemmer, wordnet, wordNetProperties);
+		CustomStemAnalyzer customSteamAnalyzer = new CustomStemAnalyzer(version, stopWords, engine, stemmer, wordnet, wordNetProperties, InputParams.SYNSET_STRATEGY);
 		
 		FileReader reader = new FileReader(new File("test.txt"));
 		

@@ -16,6 +16,7 @@ public class Separation extends UnsupervisedEvaluator{
 		this.total = total;
 	}
 	
+	
 	@Override
 	public double evaluate(){
 		double result = 0;
@@ -33,3 +34,4 @@ public class Separation extends UnsupervisedEvaluator{
 	
 
 }
+//java!

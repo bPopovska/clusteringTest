@@ -28,13 +28,19 @@ public class Cohesion extends UnsupervisedEvaluator{
 	private double getMinDistance(Vector v) {
 		
 		double min = Double.MAX_VALUE;
+		int index = 1;
+		int minIndex = -1;
 		
 		for(Cluster c:clusters){
 			double distance = distanceMeasure.distance(c.getCenter(), v);
 			if(distance < min){
 				min = distance;
+				minIndex = index;
 			}
+			index++;
 		}
+		System.out.print(v + " ");
+		System.out.println(minIndex);
 		return min;
 	}
 
