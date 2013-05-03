@@ -6,41 +6,40 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.mahout.clustering.kmeans.Cluster;
+import org.apache.mahout.clustering.AbstractCluster;
 import org.apache.mahout.common.distance.DistanceMeasure;
 import org.apache.mahout.math.Vector;
 
 import com.mahout.clustering.evaluation.Evaluator;
 
-abstract class SupervisedEvaluator implements Evaluator{
+abstract class SupervisedEvaluator<T extends AbstractCluster> implements Evaluator{
 	
 	/**
 	 * Hash map that keeps track of all available vectors and the class they belong to.
 	 */
 	private Map<Integer, List<Vector>> allVectors = new HashMap<Integer, List<Vector>>();
 	
-	private List<Cluster> allClusters = new LinkedList<Cluster>();
+	private List<T> allClusters = new LinkedList<T>();
 	
 	private DistanceMeasure distanceMeasure;
 		
 	
 	public SupervisedEvaluator(Map<Integer, List<Vector>> allVectors,
-			List<Cluster> allClusters, DistanceMeasure distanceMeasure) {
-		super();
+			List<T> allClusters, DistanceMeasure distanceMeasure) {
 		this.allVectors = allVectors;
 		this.allClusters = allClusters;
 		this.distanceMeasure = distanceMeasure;
 	
 	}
 	
-	protected long calculateMij(int j, Cluster c) {
+	protected long calculateMij(int j, T c) {
 		long count = 0;
 		List<Vector> vector = allVectors.get(j);
 		double min = Double.MAX_VALUE;
 		int clusterId = 0;
 		
 		for (Vector v:vector) {
-			for(Cluster cTmp:allClusters){
+			for(T cTmp:allClusters){
 				double dist = distanceMeasure.distance(cTmp.getCenter(), v);
 				if(dist < min){
 					min = dist;
@@ -61,7 +60,7 @@ abstract class SupervisedEvaluator implements Evaluator{
 	 * @param c The cluster.
 	 * @return The p parameter.
 	 */
-	protected double calculatePij(int j, Cluster c){
+	protected double calculatePij(int j, T c){
 		return (double) calculateMij(j, c) / c.getNumPoints();
 		
 	}
@@ -84,11 +83,11 @@ abstract class SupervisedEvaluator implements Evaluator{
 		this.allVectors = allVectors;
 	}
 
-	public List<Cluster> getAllClusters() {
+	public List<T> getAllClusters() {
 		return allClusters;
 	}
 
-	public void setAllClusters(List<Cluster> allClusters) {
+	public void setAllClusters(List<T> allClusters) {
 		this.allClusters = allClusters;
 	}
 

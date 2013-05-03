@@ -4,21 +4,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.mahout.clustering.kmeans.Cluster;
+import org.apache.mahout.clustering.AbstractCluster;
 import org.apache.mahout.common.distance.DistanceMeasure;
 import org.apache.mahout.math.Vector;
 
 
-public class Entropy extends SupervisedEvaluator{
+public class Entropy<T extends AbstractCluster> extends SupervisedEvaluator<T>{
 
 	
 	public Entropy(Map<Integer, List<Vector>> allVectors,
-			List<Cluster> allClusters, DistanceMeasure distanceMeasure) {
+			List<T> allClusters, DistanceMeasure distanceMeasure) {
 		super(allVectors, allClusters, distanceMeasure);
 		
 	}
 		
-	private double entropy(Cluster c){
+	private double entropy(T c){
 		double result = 0;
 		Set<Integer> classes = getAllVectors().keySet();
 		for (Integer i:classes) {
@@ -31,7 +31,7 @@ public class Entropy extends SupervisedEvaluator{
 	@Override
 	public double evaluate(){
 		double result = 0;
-		for(Cluster c:getAllClusters()){
+		for(T c:getAllClusters()){
 			result += ((double)c.getNumPoints()/getTotal())*entropy(c);
 		}
 		return result;

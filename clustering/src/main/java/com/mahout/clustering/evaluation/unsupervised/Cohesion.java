@@ -5,17 +5,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.mahout.clustering.kmeans.Cluster;
+import org.apache.mahout.clustering.AbstractCluster;
 import org.apache.mahout.common.distance.DistanceMeasure;
 import org.apache.mahout.math.Vector;
 
-import com.mahout.clustering.evaluation.unsupervised.UnsupervisedEvaluator;
-
-public class Cohesion extends UnsupervisedEvaluator{
+public class Cohesion<T extends AbstractCluster> extends UnsupervisedEvaluator<T>{
 	
 	Map<Vector, Double> allPoints = new HashMap<Vector, Double>();			
 
-	public Cohesion(List<Cluster> clusters, List<Vector> allPoints, DistanceMeasure distanceMeasure) {
+	public Cohesion(List<T> clusters, List<Vector> allPoints, DistanceMeasure distanceMeasure) {
 		super(clusters, distanceMeasure);
 		
 		for (Vector v:allPoints) {
@@ -31,7 +29,8 @@ public class Cohesion extends UnsupervisedEvaluator{
 		int index = 1;
 		int minIndex = -1;
 		
-		for(Cluster c:clusters){
+		
+		for(AbstractCluster c : clusters){
 			double distance = distanceMeasure.distance(c.getCenter(), v);
 			if(distance < min){
 				min = distance;

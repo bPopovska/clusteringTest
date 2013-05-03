@@ -2,28 +2,28 @@ package com.mahout.clustering.evaluation.unsupervised;
 
 import java.util.List;
 
-import org.apache.mahout.clustering.kmeans.Cluster;
+import org.apache.mahout.clustering.AbstractCluster;
 import org.apache.mahout.common.distance.DistanceMeasure;
 
 import com.mahout.clustering.evaluation.Evaluator;
 
-abstract public class UnsupervisedEvaluator implements Evaluator {
+abstract public class UnsupervisedEvaluator<T extends AbstractCluster> implements Evaluator {
 	
-	List<Cluster> clusters;
+	List<T> clusters;
 	
 	DistanceMeasure distanceMeasure;
 
-	public UnsupervisedEvaluator(List<Cluster> clusters,
+	public UnsupervisedEvaluator(List<T> clusters,
 			DistanceMeasure distanceMeasure) {
 		this.clusters = clusters;
 		this.distanceMeasure = distanceMeasure;
 	}
 
-	public List<Cluster> getClusters() {
+	public List<T> getClusters() {
 		return clusters;
 	}
 
-	public void setClusters(List<Cluster> clusters) {
+	public void setClusters(List<T> clusters) {
 		this.clusters = clusters;
 	}
 
